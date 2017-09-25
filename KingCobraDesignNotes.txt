@@ -417,3 +417,9 @@ idiosyncrasies of 64-bit
 initialized with these commits
 (*) KingCobra kernel sockets have been TLS-ed by kernel_setsockopt(TX_TLS) newly introduced in 4.13 kernel.
 (*) After this complete request-reply traffic from VIRGO64 system calls to VIRGO64 queueing and KingCobra is encrypted.
+
+---------------------------------------------------------------------------------------------------------------
+(FEATURE-DONE) Commits - telnet - VIRGO64Queue - KingCobra64 -  25 September 2017
+---------------------------------------------------------------------------------------------------------------
+(*) Disk persisted KingCobra64 REQUEST-REPLY Queue written by VIRGO64 Queue to KingCobra64 telnet invocation after 4.13.3 64-bit KTLS upgrade
+has been committed
