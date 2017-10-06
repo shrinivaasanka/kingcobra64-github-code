@@ -423,3 +423,11 @@ initialized with these commits
 ---------------------------------------------------------------------------------------------------------------
 (*) Disk persisted KingCobra64 REQUEST-REPLY Queue written by VIRGO64 Queue to KingCobra64 telnet invocation after 4.13.3 64-bit KTLS upgrade
 has been committed
+
+------------------------------------------------------------------------------------------------------------------------------------
+(FEATURE-DONE) VIRGO64 Queueing Kernel Module Listener - KingCobra64 - 4.13.3 - 6 October 2017
+------------------------------------------------------------------------------------------------------------------------------------
+(*) telnet client connection to VIRGO64 Queue and a subsequent workqueue routing (pub/sub) to KingCobra64 has been tested on 4.13.3
+(*) TX_TLS socket option has not been disabled and is a no-op because it has no effect on the socket.
+(*) REQUEST_REPLY.queue for this routing from VIRGO64 queue and persisted by KingCobra64 has been committed to KingCobra64 repositories in GitHub and SourceForge
+
