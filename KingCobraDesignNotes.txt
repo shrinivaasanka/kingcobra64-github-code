@@ -432,3 +432,10 @@ has been committed
 (*) TX_TLS socket option has not been disabled and is a no-op because it has no effect on the socket.
 (*) REQUEST_REPLY.queue for this routing from VIRGO64 queue and persisted by KingCobra64 has been committed to KingCobra64 repositories in GitHub and SourceForge
 
+----------------------------------------------------------------------------------------------------------------------------------------
+(FEATURE-DONE) KingCobra64 Neuro Electronic Currency transactional cloud move - Perfect Forward - 17 January 2018
+----------------------------------------------------------------------------------------------------------------------------------------
+(#) Neuro Currency cloud perfect forward has been made transactional by wrapping it by Python Transaction Manager (widely used in Zope
+Python Application Server)
+(#) imports transaction python package and invokes begin() and commit() on subprocess call to neuro cloud move client and server
+
