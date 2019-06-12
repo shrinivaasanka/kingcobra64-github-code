@@ -439,3 +439,23 @@ has been committed
 Python Application Server)
 (#) imports transaction python package and invokes begin() and commit() on subprocess call to neuro cloud move client and server
 
+---------------------------------------------------------------------------------------------------------------------------------------------
+Concurrent Managed Workqueue(CMWQ), VIRGO64 Queueing and KingCobra64 messaging - 12 June 2019
+---------------------------------------------------------------------------------------------------------------------------------------------
+1. Existing workqueue underneath VIRGO64 queueing and requests routed by it to KingCobra64 messaging are old legacy workqueues which
+have been revamped to Concurrent Managed Workqueue which supports concurrent messaging and lot of other options in queue creation.
+2. create_workqueue() in VIRGO64 Queueing has been changed to alloc_workqueue() of Concurrent Managed Workqueue.
+3. VIRGO64 Queueing request routing to KingCobra64 messaging has been tested with CMWQ and queueing log and kingcobra64 Request-Reply
+Queue have been committed to respective testlogs of the drivers
+4. reading from stream has been disabled in virgo_kernel_analytics.h
+5. Reference - CMWQ documentation - https://www.kernel.org/doc/html/v4.11/core-api/workqueue.html
+6. Byzantine Fault Tolerance in KingCobra64 persisted queue can be made available by performant CMWQ and routing to the Replicas of
+REQUEST_REPLY.queue by any of the practical BFT protocols available.
+7. Most important application of CMWQ based VIRGO64-KingCobra64 is in the context of kernelspace hardware messaging in IoT,Drones and other
+analytics driven embedded systems.
+8. An example usecase which is a mix of sync and async I/O in kernelspace:
+        (*) Analytics Variables computed by userspace machine learning are read over socket stream by kernel_analytics driver and
+exported kernelwide
+        (*) Some interested Drone driver in kernel (example PXRC) reads the analytics variables synchronously and sends reply messages asynchronously to VIRGO64 Queuing driver over kernel sockets.  
+        (*) VIRGO Queuing routes the queued messages to KingCobra64 driver
+
