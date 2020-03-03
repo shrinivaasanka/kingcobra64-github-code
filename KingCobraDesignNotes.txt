@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------------------
-KingCobra - A Research Software for Distributed Request Service on Cloud with Arbiters
+NEURONRAIN KingCobra - Module for Kernelspace Messaging and Computational Economics  
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -15,17 +15,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #-------------------------------------------------------------------------------------------------------
-#Copyleft (Copyright+):
-#Srinivasan Kannan
-#(also known as: Ka.Shrinivaasan, Shrinivas Kannan)
-#Ph: 9791499106, 9003082186
-#Krishna iResearch Open Source Products Profiles:
-#http://sourceforge.net/users/ka_shrinivaasan,
-#https://github.com/shrinivaasanka,
-#https://www.openhub.net/accounts/ka_shrinivaasan
+#K.Srinivasan
+#NeuronRain Documentation and Licensing: http://neuronrain-documentation.readthedocs.io/en/latest/
 #Personal website(research): https://sites.google.com/site/kuja27/
-#emails: ka.shrinivaasan@gmail.com, shrinivas.kannan@gmail.com,
-#kashrinivaasan@live.com
 #--------------------------------------------------------------------------------------------------------
 *****************************************************************************************/
 
@@ -118,7 +110,7 @@ Theoretical Interludes, Design Notes and ToDo (long term with no deadline)
 
 25. (ONGOING) For the timestamp service, EventNet described in http://sourceforge.net/p/asfer/code/HEAD/tree/AstroInferDesign.txt is a likely implementation choice. AsFer already has a primitive text files based EventNet graph implementation in place. Periodic topological sort (quite expensive) of EventNet gives logical ordering and thus a logical timestamp of the cloud events.
 
-26. (THEORY - ONGOING Implementation) MESSAGE-AS-CURRENCY PROTOCOL: If each message payload is also construed as a currency carrier, each message id can be mapped to a unique currency or a coin with fixed denomination. This is similar to each currency note having a serial number as unique id. Uniqueness is guaranteed since there can be only one message (or coin) with that id on the cloud. This simulates a scenaio - "Sender of the message pays the Receiver with a coin having the unique id and Receiver acknowledges receipt". This is an alternative to BitCoin protocol. Double spending is also prohibited since at any point in time the message or "coin" with unique id can be sent by only one node in the cloud. Unique Cloudwide Timestamp server mimicks the functionality of "Mint". There is a difference here between conventional send-receive of messages - Once a message is sent to remote cloud node, no copy of it should exist anywhere in the cloud. That is, every MAC currency message is a cloudwide singleton. In pseudocode this is expressible as:
+784. (THEORY - Neuro Cryptocurrency Implemented in AstroInfer - this section is an extended draft on respective topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt) MESSAGE-AS-CURRENCY PROTOCOL: If each message payload is also construed as a currency carrier, each message id can be mapped to a unique currency or a coin with fixed denomination. This is similar to each currency note having a serial number as unique id. Uniqueness is guaranteed since there can be only one message (or coin) with that id on the cloud. This simulates a scenaio - "Sender of the message pays the Receiver with a coin having the unique id and Receiver acknowledges receipt". This is an alternative to BitCoin protocol. Double spending is also prohibited since at any point in time the message or "coin" with unique id can be sent by only one node in the cloud. Unique Cloudwide Timestamp server mimicks the functionality of "Mint". There is a difference here between conventional send-receive of messages - Once a message is sent to remote cloud node, no copy of it should exist anywhere in the cloud. That is, every MAC currency message is a cloudwide singleton. In pseudocode this is expressible as:
 	m1=MAC_alloc(denomination)
 	m2=m1 (---- this is disallowed)
 Linux kernel allocation functions - kmalloc() - have a krefs functionality for reference counting within kernel. Refcount for MAC message can never exceed 1  across cloud for above singleton functionality - this has to be a clause everywhere for any unique MAC id. This requires a cloudwide krefs rather. Buyer decrements cloudwide kref and Seller increments it. In C++ this is done by std::move() and often required in "Perfect Forwarding" - http://thbecker.net/articles/rvalue_references/section_07.html - within single addressspace. By overloading operator=() with Type&& rvalue reference, the necessary networking code can be invoked that does the move which might include serialization. But unfortunately C++ and Linux kernel are not compatible. The Currency object has to be language neutral and thus Google Protocol Buffers which have C,C++,Java, Python .proto files compilers support might be useful but yet the move semantics in Kernel/C is non-trivial that requires cloudwide transactional kernel memory as mentioned in (31) below.  A C++ standalone userspace client-server cloud object move implementation based on std::move() over network of Protocol Buffer Currency Objects has been added to AsFer repository at - http://sourceforge.net/p/asfer/code/HEAD/tree/cpp-src/cloud_move which can optionally be upcall-ed to userspace from VIRGO and KingCobra drivers. This C++ implementation is invoked in userspace with call_usermodehelper() from VIRGO Queue Messaging via the kernel workqueue handler. 
@@ -144,7 +136,7 @@ References:
 
 27. (THEORY) SIMULATING A VIRTUAL ECONOMY with above MAC protocol (Message-as-currency): If each message sent is considered as "money" element and cloud nodes and clients are the consumers and producers of "electronic money", the timestamp "Mint" becomes a virtual Federal Reserve or Central Bank that controls the "electronic money" circulation in the cloud. Infact any REPLY messages could be mapped to a Service a client derives by s(p)ending the REQUEST "money message". Thus value(REQUEST) should equal value(REPLY) where value() is a function that measures the value of a money denomination and the value of goods and/or services for that money. For example Rs.10000 or $10000 has no meaning if it doesn't translate into a value (analogy: erstwhile Gold Standard).When the value() function gets skewed phenomena like Inflation arise. Thus above model could also have a notion of value() and "electronic money inflation". Thus any "message money" with a unique id assigned by the cloud unique id(or logical timestamp) server can exist at most in only one node in the cloud. Money trail can be implemented by prefixing a header to the incoming message money in each cloud node that receives the money which traces the "path" taken. Cloud has to implement some Byzantine Fault Tolerant protocol. The value() function to some extent can measure the "deceit" as above. When a Buyer and Seller's value() functions are at loggerheads then that is starting point of "cloud corruption" at either side and might be an undecidable problem. 
 
-28. (THEORY) TRADING WITH ABOVE KINGCOBRA MAC protocol - somewhat oversimplified:
+785. (THEORY - this section is an extended draft on respective topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt) TRADING WITH ABOVE KINGCOBRA MAC protocol - somewhat oversimplified:
 				
 				--------------------
 				|Unique MAC id MINT|
@@ -168,13 +160,14 @@ References:
 
 29. (THEORY) VALUE FOR ELECTRONIC MONEY: How is above MAC money earned - This again requires linking value to money (as money is not a value by itself and only a pointer to valuable item or resource). Thus any buyer can "earn" MAC money by something similar to a barter.
 
-30. (THEORY and IMPLEMENTATION) FIXING VALUE FOR MAC MONEY: To delineate corruption as discussed in 27 above with value() disparity between MAC money and REPLY goods and services, an arbiter node in cloud has to "judge" the value of MAC sent by buyer and goods and services from seller and proclaim if corruption exists. Thus value() function itself has to be some kind of machine learning algorithm. This is related to or same as points 12 to 23 above. For example, while buying an item for few million bucks, value() has to take as input the description of the item and calculate the value "ideally" which is difficult. Because there are no perfect references to evaluate and only a weighted average of available market price range has to be taken as a reference which is error-prone. value() function can be recursively defined as("Reductionism"):
+786. (THEORY and IMPLEMENTATION - this section is an extended draft on respective topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt) FIXING VALUE FOR MAC MONEY: To delineate corruption as discussed in 27 above with value() disparity between MAC money and REPLY goods and services, an arbiter node in cloud has to "judge" the value of MAC sent by buyer and goods and services from seller and proclaim if corruption exists. Thus value() function itself has to be some kind of machine learning algorithm. This is related to or same as points 12 to 23 above. For example, while buying an item for few million bucks, value() has to take as input the description of the item and calculate the value "ideally" which is difficult. Because there are no perfect references to evaluate and only a weighted average of available market price range has to be taken as a reference which is error-prone. value() function can be recursively defined as("Reductionism" and a variant of Ricardo Labor theory of value - value of a commodity is proportional to cost of labor required to make it - e.g Software is approximately valued by lines of code,concept patent innovations and manhours):
 	-----------------------------------------------------------------------------------------------------
 	|value(i) = summation(value(ingredients of i)) + cost(integrating the ingredients to create item i) |
 	-----------------------------------------------------------------------------------------------------
 Obviously the above recursion combinatorially explodes into exponential number of nodes in the recursion tree. Ideally recursion has to go deep upto quarks and leptons that makeup the standard model. If for practical purposes, recursion depth is restricted to t then size of value() tree is O(m^t) where m is average number of ingredients per component. Hence any algorithm computing the value() recursion has to be exponential in time. Computation of value() in the leaf nodes of the recursion is most crucial as they percolate bottom-up. If leaf nodes of all possible items are same (like quarks and leptons making up universe) then such atomic ingredient has to have "same" value for all items. Only the integration cost varies in the levels of the tree.For infinite case, value() function is conjectured to be undecidable - probably invoking some halting problem reduction .But above value() function could be Fixed Parameter Tractable in parameter recursion depth - t but yet could only be an approximation. A Turing machine computing value() function exactly might loop forever and thus Recursively Enumerable and not Recursive. A CVXPY implementation for Pricing Market Equilibrium has been implemented in KingCobra. 
 
-31. (THEORY) Buyer-Seller and MAC electronic money transaction schematic:
+-------------------------------------------------------------------------
+787. (THEORY - this section is an extended draft on respective topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt) Buyer-Seller and MAC electronic money transaction schematic:
 -------------------------------------------------------------------------
 	
 	Buyer     	 A-------<id><refcnt:0>----------------------> Seller <id><refcnt:1> (increments refcnt)
@@ -193,8 +186,9 @@ Reaper thread in each cloud node harvests the zero refcounted allocations and in
 ------------------------------------------------------
 When a suspect node is analyzed when a complaint problem is filed on it, (1) it is of foremost importance on how flawless is the arbiter who investigates on that and is there a perfect way to choose a perfect arbiter. In the absence of the previous credibility of entire cloud judiciary is blown to smithereens and falls apart. (2) Assuming a perfect arbiter which is questionable, next thing is to analyze the credibility of the node who sulked. This is nothing but the Citation problem in http://arxiv.org/abs/1106.4102 and http://www.nist.gov/tac/publications/2010/participant.papers/CMI_IIT.proceedings.pdf where a node can positively or negatively cite another node a "Societal Norm" which can be faulted and citations/opinions could be concocted with malafide intent(perjury). This is rather a generalization of PageRank algorithm with negative citations. Thus Perfect Cloud Arbitration could be an unsolvable problem. (3) Even if both arbiter and complainant are perfect which is again questionable, there are still loopholes - lack of evidences or implicated witnesses might portray a negative impression of a positive node. Thus there are 3 tiers of weakenings in cloud arbitration and there could be more. P(Good) series in https://sites.google.com/site/kuja27/ precisely addresses this problem.
 
-34. (THEORY) MAC Money Flow as MaxFlow problem:
--------------------------------------------
+-------------------------------------------------------------------------------------------------------
+788. (THEORY) MAC Money Flow as MaxFlow problem - this section is an extended draft on respective topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt
+-------------------------------------------------------------------------------------------------------
 Transactions happening in a cloud are edges between the nodes involved (buyer and seller). Thus it creates a huge directed graph. Flow of money in this graph can be modelled as Flow network. Minimum Cut of this graph shows crucial nodes in the graph which play vital role in cloud economy removal of which paralyzes the cloud (could be Central bank and other financial institutions). This graph has bidirectional edges where one direction is for money and the opposite direction is for Goods and Services. In the Flow network sum of flows is zero. But in the Money Flow Network each node is having a cash reserve ratio (CRR) due to commercial transactions which is confidential and privy to that node only  and thus sum of flows can not be zero. Hub nodes in the Money Flow graph which can be obtained by getting k-core or D-core of the graph by some graph peeling algorithms are crucial nodes to the economy that contribute to Money circulation. 
 
 35. (THEORY) Cycles and components in above MAC Money Flow Graph:
@@ -205,16 +199,31 @@ Above graph of money transactions could be cyclic which implies a supply chain. 
 ---------------------------
 One of the component in above MAC Money Flow Graph of cloud could be a virtual Stock Exchange. Based on the financial and securities transactions of constituent organizations in the graph, index of the exchange varies.  
 
-37. (THEORY) Analysis of Poverty and Alleviation through above money flow graph:
---------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------
+789. (THEORY) Analysis of Poverty and Alleviation through above money flow graph - this section is an extended draft on respective topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt
+--------------------------------------------------------------------------------------------------------
 Weights of the edges of money flow graph are the denominations of the transaction. Thus high value edges and low value edges divide the Graph logically into Rich and Poor strata(Bourgeoisie and Proletariat subgraphs). Equitable graph is the one which does not have too much of value difference between Rich and Poor sets of edges - a utopian to achieve. Mathematically, it is an optimization LP problem that seeks to minimize sum(RichEdges)-sum(PoorEdges) or Sum(RichVertices) - sum(PoorVertices) - without harming either - to be precise. This requires money flow to be programmed to find a feasible solution to this LP subject to constraints like work-pay parity etc.,(there could be more variables and constraints to this LP) . Due to CRR above Vertices also can be Rich and Poor in addition to Rich Edges and Poor Edges. 
 
-38.(THEORY) Demand and Supply and Value() function:
-------------------------------------------
+Previous Linear Program could be weighted to : Sum(w(i) * RichEdges) - Sum(w(k) * PoorEdges). Money Flow Graph (or Money Trail as it is commonly termed) is a potential expander of high regularity. Some constraints could be imposed on this Poverty Alleviation Linear Program e.g Number of Rich edges (x) must be atleast a non-negligible fraction of Number of poor edges (y) which guarantees equitable money trail:
+	R(i) = Rich Edges
+	P(i) = Poor Edges
+minimize:
+	Poverty = Sum_1_to_x(w(i) * R(i)) - Sum_1_to_y(w(k) * P(i))
+subject to constraint:
+	x >= epsilon * y, 0 < epsilon < 1
+
+References:
+----------
+789.1 J-PAL case study of social programs fund flow reforms - https://www.povertyactionlab.org/case-study/fund-flow-reforms-improved-social-program-delivery-india
+
+-------------------------------------------------------------------------------------------------------
+790.(THEORY) Demand and Supply and Value() function - this section is an extended draft on respective topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt
+-------------------------------------------------------------------------------------------------------
 Alternative to the recursive definition of value() function above can be done through Demand and Supply - more the demand and less the supply, price increases and vice-versa. This is quite subjective compared to absolute recursive definition above. To simulate demand and supply, the weights of the money edges (-> direction) in the bidirectional graph change and fluctuate dynamically over time for unchanging weights of the Goods and Services edges ( <- direction) between any pair of Buyer-Seller vertices. This makes Money and G&S Flow graph a Dynamic Graph with edge weight update primitive.
 
-39.(THEORY) Hidden or Colored Money:
-------------------------------------
+------------------------------------------------------------------------------------------------------
+791.(THEORY) Hidden or Colored Money - this section is an extended draft on respective topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt
+------------------------------------------------------------------------------------------------------
 In an ideal Cloud with only MAC currencies, colored money can co-exist if (not limited to) some money trails are missing, due to "cloud corruption", systemic failure, hardware and network issues etc.,. Probably this is the direct consequence of CAP theorem and can be conjectured to be undecidable. Hidden money is to some extent dependent on quantity of net flow (if non-zero) and how much of this net flow is contributed by Rich vertices and Edges. Money Circulation with Colored money can be formulated as Network Flow Problem with Time horizon and storage at nodes. Time horizon implies  a certain flow has to happen before a stop time. Flow conservation is affected by this Dynamic Flow because of storage at nodes and money entering a node need not be equal to money leaving. Thus not all Hidden/Colored money is illegal in theoretical terms. As mentioned in 39.1, storage is simulated with a closed loop at nodes so that flow conservation is not seemingly violated. Profiteering is achieved by money flows over time in financial markets by assigining a multiplicative factor at each edge which accrues through a cycle and comes back to start node in cycle with a magnification in value. BlockChain techniques maintain ledgers which record all transactions globally thus decimating hidden unaccounted wealth if any. KingCobra experimental MAC currency relies on unique global identifier and global refcounts with atomic cloud transactions in linux kernel. Money Flow Graph mentioned in 34-39 has striking resemblance to Money Flow Markets already studied in Algorithmic Game Theory(AGT). 39.3 primarily devotes to Pricing and Equilibrium of Edges in Money Flow Graphs and not much on Colored Money Flow. An algorithm to find colored money flow could be a major advance in AGT. Prima facie there exists no zero-knowledge blackbox proof algorithm to find colored money because all storage data is a prerequisite which is impossible to know. Money trail for MAC currency described in 22,27,28 requires tracking of currencies. There are recent dollar and euro bills issued with Radio Frequency ID tags (RFID).
 
 Total storage of money in Flow Market Graph = | Incoming money flow at Source - Incoming money flow at Sink | i.e Flow conservation is no longer obeyed.
@@ -234,13 +243,13 @@ Colored Money = | GDP^2 * Tax-to-GDP ratio - Incoming Flow at Indirect Taxation 
 
 References:
 -----------
-39.1 Network Flows over time over Storage Area Networks (SAN) - https://hal.inria.fr/inria-00071643/document
-39.2 Network Flow - [GoldbergTardosTarjan] - http://www.cs.cornell.edu/~eva/network.flow.algorithms.pdf
-39.3 Algorithmic Game Theory - Flow Markets - [TimRoughGarden] - http://theory.stanford.edu/~tim/books.html
-39.4 RFID tagged currencies - $100 bill - http://www.businessinsider.in/New-Smart-Paper-Could-Put-An-End-To-Dark-Money/articleshow/21134569.cms
-39.5 Cons of RFID currencies - http://www.prisonplanet.com/022904rfidtagsexplode.html
-39.6 Mechanism Design and Machine Learning - https://www.cs.cmu.edu/~mblum/search/AGTML35.pdf - Design of algorithms for maximizing gain in auctions involving sellers and buyers
-39.7 Financial and Economic Networks - https://supernet.isenberg.umass.edu/bookser/innov-ch1.pdf
+791.1 Network Flows over time over Storage Area Networks (SAN) - https://hal.inria.fr/inria-00071643/document
+791.2 Network Flow - [GoldbergTardosTarjan] - http://www.cs.cornell.edu/~eva/network.flow.algorithms.pdf
+791.3 Algorithmic Game Theory - Flow Markets - [TimRoughGarden] - http://theory.stanford.edu/~tim/books.html
+791.4 RFID tagged currencies - $100 bill - http://www.businessinsider.in/New-Smart-Paper-Could-Put-An-End-To-Dark-Money/articleshow/21134569.cms
+791.5 Cons of RFID currencies - http://www.prisonplanet.com/022904rfidtagsexplode.html
+791.6 Mechanism Design and Machine Learning - https://www.cs.cmu.edu/~mblum/search/AGTML35.pdf - Design of algorithms for maximizing gain in auctions involving sellers and buyers
+791.7 Financial and Economic Networks - https://supernet.isenberg.umass.edu/bookser/innov-ch1.pdf
 
 -----------------------------------------------
 Commits as on 1 March 2014
@@ -355,7 +364,7 @@ Commits - KingCobra 64 bit and VIRGO Queue + KingCobra telnet requests - 17 Apri
 *) Similar to other drivers struct socket* reinterpret cast to int has been removed and has been made const in queuesvc kernel thread
 
 --------------------------------------------------------------------------------------------------------------
-(FEATURE-DONE) Commits - CVXPY implementation for Eisenberg-Gale Convex Program - 18 August 2017
+779. (FEATURE-DONE) Commits - CVXPY implementation for Eisenberg-Gale Convex Program - 18 August 2017 -  - this section is an extended draft on respective topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt
 --------------------------------------------------------------------------------------------------------------
 (*) First commits for Convex Optimized Market Equilibrium Prices
 (*) Imports CVXPY Convex Program solver
@@ -372,7 +381,7 @@ Commits - KingCobra 64 bit and VIRGO Queue + KingCobra telnet requests - 17 Apri
         - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt
 
 -----------------------------------------------------------------------------------------------------------------
-(FEATURE-DONE) Commits - Convex Optimization - DCCP - 21 August 2017
+780. (FEATURE-DONE - this section is an extended draft on respective topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt) Commits - Convex Optimization - DCCP - 21 August 2017
 -----------------------------------------------------------------------------------------------------------------
 (*) import dccp has been added
 (*) DCCP is the recent advancement and generalization of DCP for convex-concave programs
@@ -398,7 +407,7 @@ KKT conditions indirectly.
 (Reference - pages 3072 and 3073 of https://web.stanford.edu/~boyd/papers/pdf/ecos_ecc.pdf - KKT conditions in ECOS solver)
 
 ----------------------------------------------------------------------------------------------------------------------------------
-(FEATURE-DONE) Convex Optimization - Pricing Computation - 30 August 2017
+778. (FEATURE-DONE) Convex Optimization - Pricing Computation - 30 August 2017 - this section is an extended draft on respective topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt
 ----------------------------------------------------------------------------------------------------------------------------------
 (*) Prices of Goods/Services have been computed explicitly from Karush-Kuhn-Tucker Conditions (1,2,3 and especially 4)
 (*) References: 
@@ -433,14 +442,14 @@ has been committed
 (*) REQUEST_REPLY.queue for this routing from VIRGO64 queue and persisted by KingCobra64 has been committed to KingCobra64 repositories in GitHub and SourceForge
 
 ----------------------------------------------------------------------------------------------------------------------------------------
-(FEATURE-DONE) KingCobra64 Neuro Electronic Currency transactional cloud move - Perfect Forward - 17 January 2018
+777. (FEATURE-DONE) KingCobra64 Neuro Electronic Currency transactional cloud move - Perfect Forward - 17 January 2018 - this section is an extended draft on respective topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt
 ----------------------------------------------------------------------------------------------------------------------------------------
 (#) Neuro Currency cloud perfect forward has been made transactional by wrapping it by Python Transaction Manager (widely used in Zope
 Python Application Server)
 (#) imports transaction python package and invokes begin() and commit() on subprocess call to neuro cloud move client and server
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
-Concurrent Managed Workqueue(CMWQ), VIRGO64 Queueing and KingCobra64 messaging - 12 June 2019
+776. (FEATURE) Concurrent Managed Workqueue(CMWQ), VIRGO64 Queueing and KingCobra64 messaging - 12 June 2019 - this section is an extended draft on respective IoT messaging and kernel analytics topics in NeuronRain AstroInfer Design - https://github.com/shrinivaasanka/asfer-github-code/blob/master/asfer-docs/AstroInferDesign.txt
 ---------------------------------------------------------------------------------------------------------------------------------------------
 1. Existing workqueue underneath VIRGO64 queueing and requests routed by it to KingCobra64 messaging are old legacy workqueues which
 have been revamped to Concurrent Managed Workqueue which supports concurrent messaging and lot of other options in queue creation.
@@ -456,6 +465,5 @@ analytics driven embedded systems.
 8. An example usecase which is a mix of sync and async I/O in kernelspace:
         (*) Analytics Variables computed by userspace machine learning are read over socket stream by kernel_analytics driver and
 exported kernelwide
-        (*) Some interested Drone driver in kernel (example PXRC) reads the analytics variables synchronously and sends reply messages asynchronously to VIRGO64 Queuing driver over kernel sockets.  
+        (*) Some interested Drone driver in kernel (example PXRC) reads the analytics variables synchronously and sends reply messages asynchronously to VIRGO64 Queuing driver over kernel sockets.
         (*) VIRGO Queuing routes the queued messages to KingCobra64 driver
-
