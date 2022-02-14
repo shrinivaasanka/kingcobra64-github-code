@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------------------------------
 #K.Srinivasan
 #NeuronRain Documentation and Licensing: http://neuronrain-documentation.readthedocs.io/en/latest/
-#Personal website(research): https://sites.google.com/site/kuja27/
+#Personal website(research): https://acadpdrafts.readthedocs.io/en/latest/
 #--------------------------------------------------------------------------------------------------------
 *****************************************************************************************/
 
@@ -472,3 +472,26 @@ analytics driven embedded systems.
 exported kernelwide
         (*) Some interested Drone driver in kernel (example PXRC) reads the analytics variables synchronously and sends reply messages asynchronously to VIRGO64 Queuing driver over kernel sockets.
         (*) VIRGO Queuing routes the queued messages to KingCobra64 driver
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+1216. (THEORY and FEATURE) Algorithmic Trading in Fictitious Neuro Cryptocurrency - EventNet Graphical Event Model (GEM) HyperLedger implementation - 14 February 2022 - related to 690,789,790,791,1213,1214,1215 and all sections on Computational Economics - Theory of Value (economic merit), Algorithmic trading, Quantitative Majority Circuit simulation of Demand-Supply, Bounded Width Branching Programs, Algorithmic Game Theory and Mechanism Design, Money Trail, Poverty Alleviation, Graphical Event Models and Causal Event Models, Timeseries analysis, Integer Factorization and Money Changing Program ILP Proof of Work for Neuro Cryptocurrency, Byzantine Fault Tolerance
+--------------------------------------------------------------------------------------------------------------------------------------------
+1216.1 This commit implements a new Python 3.8 source file Neuro_EventNetGEM_HyperLedger.py defining a class for Neuro Cryptocurrency transactional hyperledger. Class member function algorithmic_trading(self,commodity, quantity, neuro_currency, buyer, seller, type) simulates an algorithmic trading activity of buy and sell for a commodity of specified quantity and updates EventNet GEM HyperLedger. 
+1216.2 Buy-Sell transactions are uniquely identified by the Boost UUID of Neuro Cryptocurrency paid,commodity name and type of transaction. Commodity could include Stock quotes analyzed earlier by Timeseries (ARMA and ARIMA) in NeuronRain AstroInfer where high frequency algorithmic trading aided by machine learning is used widely in practice.
+1216.3 Following EventNet GEM convention two text files Neuro_HyperLedger_EventNetGEMEdges.txt and Neuro_HyperLedger_EventNetGEMVertices.txt are updated for each transaction and the actors concerned (buyer-seller). Direction of edge in money trail graph is determined by parenthesized ordered pair of actors. 
+1216.4 4 sample Neuro transactions (of few trillion Neuros) have been written to Neuro_HyperLedger_EventNetGEMVertices.txt and Neuro_HyperLedger_EventNetGEMEdges.txt respectively below:
+	commodity1:buy:#ff1f984d-ab18-4e69-9a3b-85ddd3c2cce7:1000000000000 - buyer1,seller1 - (buyer1,seller1)#
+	commodity2:buy:#ff1f984d-ab18-4e79-1a3b-85ddd3c6cde7:2000000000000 - buyer2,seller2 - (buyer2,seller2)#
+	commodity3:sell:#ff2f984d-ab18-5e79-1a3b-85ddd4c1cde7:3000000000000 - buyer3,seller3 - (buyer3,seller3)#
+	commodity4:sell:#ff2f994d-ab18-5e79-5a3b-85ddd4c3cde7:9000000000000 - buyer4,seller4 - (buyer4,seller4)#
+	---
+	(buyer1,seller1)
+	(buyer2,seller2)
+	(buyer3,seller3)
+	(buyer4,seller4)
+1216.5 EventNet GEM for Neuro Cryptocurrency transactions plays the role of blocks added to blockchain for each unique transaction and explicitly stores the causality information for every transaction event. EventNet storage for Neuro HyperLedger could be a NoSQL cloud backend of low latency which makes it truly distributed. 
+1216.6 Neuro cryptocurrency Boost UUIDs for some denomination minted by Pseudorandom Choice, Integer Factorization and Money Changing Problem Integer Linear Program Proof of Work of varied complexity classes ranging from Bounded Probabilistic Polynomial, Nick's class to NP-Complete have to be digitally signed, a pre-requisite assumed herein.
+
+References:
+----------
+1216.7 Bitcoin Blockchain Hyperledgering - https://en.wikipedia.org/wiki/Blockchain#/media/File:Bitcoin_Block_Data.svg - Byzantine Fault Tolerant - Does not encode causality explicitly as Graphical model though transaction merkle tree has details of the participants.
